@@ -1,5 +1,5 @@
-from Dataloaders import *
-from Models import *
+from .Dataloaders import *
+from .Models import *
 from torch.utils.data import DataLoader
 from time import time
 import torch

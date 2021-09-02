@@ -1,4 +1,4 @@
-from Utils import *
+from .Utils import *
 
 class TestNet(nn.Module):
     def __init__(self,generator,output=128):
