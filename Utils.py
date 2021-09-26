@@ -50,7 +50,7 @@ class WaveformEncoder(nn.Module):
     def __init__(self):
         super().__init__()
 
-        self.enc1  = encode_block(in_channels=2, out_channels=64,kernel_size=(1,228),padding=(0,114),stride=(1,2))            
+        self.enc1  = encode_block(in_channels=4, out_channels=64,kernel_size=(1,228),padding=(0,114),stride=(1,2))            
         self.enc2  = encode_block(64, 64, (1,128), (0,64), (1,3),False)
         self.enc3  = encode_block(64, 128, (1,64), (0,32), (1,3),False)    
         self.enc4  = encode_block(128, 256, (1,32), (0,16), (1,3),False)
@@ -60,10 +60,8 @@ class WaveformEncoder(nn.Module):
         self.enc8  = encode_block(512, 1024, (1,3), (0,1), (1,3),False)
         # output 1024x1x1
 
-    def forward(self, x1,x2):
-        x0 = torch.cat([x1,x2],1)
-        
-        x = self.enc1(x0)
+    def forward(self, x):
+        x = self.enc1(x)
         x = self.enc2(x)
         x = self.enc3(x)
         x = self.enc4(x)
@@ -78,7 +76,7 @@ class SpectrogramEncoder(nn.Module):
     def __init__(self):
         super().__init__()
 
-        self.enc1  = encode_block(in_channels=6, out_channels=32,kernel_size=3,padding=1,stride=(2,1))            
+        self.enc1  = encode_block(in_channels=4, out_channels=32,kernel_size=3,padding=1,stride=(2,1))            
         self.enc2  = encode_block(32, 64, 3, 1, (2,1),False)
         self.enc3  = encode_block(64, 128, 3, 1, (2,1),False)    
         self.enc4  = encode_block(128, 256, 3, 1, 2,False)
@@ -90,10 +88,8 @@ class SpectrogramEncoder(nn.Module):
         self.fc1   = fc(10*1024,1024)
         self.fc2   = fc(1024,1024)
 
-    def forward(self, x1,x2):
-        x0 = torch.cat([x1,x2],1)
-        
-        x = self.enc1(x0)
+    def forward(self, x):
+        x = self.enc1(x)
         
         x = self.enc2(x)
         x = self.enc3(x)

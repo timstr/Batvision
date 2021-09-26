@@ -41,12 +41,12 @@ class WaveformNet(nn.Module):
         else:
             raise Exception("Generator: use direct or unet")
 
-    def forward(self, x1,x2):
+    def forward(self, x):
         
-        x = self.audio_encoder(x1,x2)
+        x = self.audio_encoder(x)
         x = self.decoder(x)
         
-        return x
+        return x.squeeze(1)
 
 class SpectrogramNet(nn.Module):
     def __init__(self,generator,output=128):
@@ -61,11 +61,11 @@ class SpectrogramNet(nn.Module):
             raise Exception("Generator: use direct or unet")   
                         
         
-    def forward(self, x1,x2):
-        x = self.audio_encoder(x1,x2)
+    def forward(self, x):
+        x = self.audio_encoder(x)
         x = self.decoder(x)
         
-        return x
+        return x.squeeze(1)
 
 class Discriminator(nn.Module):
     def __init__(self,output=128):
